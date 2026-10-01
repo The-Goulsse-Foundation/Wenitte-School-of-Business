@@ -1,0 +1,99 @@
+# Fictional Business Textbook Excerpts in First-Order and Deontic Logic
+
+*From* Foundations of Managerial Enterprise, *5th ed. (a fictional text). Each excerpt gives the textbook prose, then its formalization.*
+
+## Notation
+
+**Symbols:** ∀ all, ∃ exists, ∧ and, ∨ or, ¬ not, → implies, ↔ iff, ≺ strictly before. **Deontic operators:** O obligatory, P permitted, F forbidden. Domains: f = firm, i = investment, q = quantity, r = rate, t = time, m = manager, s = shareholder, g = good, π = profit.
+
+---
+
+**1. Break-even analysis**
+
+*"A firm breaks even at the output level where total revenue equals total cost. Below that level it operates at a loss, and above it at a profit. Break-even quantity is fixed cost divided by the contribution margin per unit."*
+
+- ∀f,q (BreakEven(f,q) ↔ Revenue(f,q) = TotalCost(f,q))
+- q < q* → π(f,q) < 0, and q > q* → π(f,q) > 0
+- q*(f) = FixedCost(f) / (Price(f) − VarCost(f))
+
+**2. Net present value rule**
+
+*"An investment should be accepted if its net present value is positive when future cash flows are discounted at the cost of capital. Where projects are mutually exclusive, the manager should select the one with the highest NPV."*
+
+- NPV(i) = Σₜ CF(i,t) / (1+r)ᵗ
+- NPV(i) > 0 → P(Accept(i))
+- ∀i,j (Exclusive(i,j) ∧ NPV(i) > NPV(j) → O(Select(i)) ∧ F(Select(j)))
+
+**3. The accounting equation**
+
+*"Assets always equal liabilities plus owners' equity. Every transaction affects at least two accounts, and total debits must equal total credits."*
+
+- ∀f,t (Assets(f,t) = Liabilities(f,t) + Equity(f,t))
+- ∀x (Transaction(x) → ∃a,b [a ≠ b ∧ Affects(x,a) ∧ Affects(x,b)])
+- ∀x (Transaction(x) → Debits(x) = Credits(x))
+
+**4. Fiduciary duty of directors**
+
+*"Directors must act in good faith and in the best interests of the corporation and its shareholders. They may not profit personally from corporate opportunities without disclosure and approval. A decision made on an informed basis without conflict of interest is protected from challenge."*
+
+- ∀m (Director(m,f) → O(Act(m, GoodFaith ∧ BestInterest(f))))
+- CorporateOpportunity(o,f) ∧ ¬Disclosed(m,o) ∧ ¬Approved(o) → F(Exploit(m,o))
+- Informed(d) ∧ ¬Conflicted(m) ∧ Decision(m,d) → Protected(d) *(business judgment rule)*
+
+**5. Price elasticity and revenue**
+
+*"When demand is elastic, a price cut raises total revenue. When demand is inelastic, a price cut lowers it. A profit-maximizing firm produces up to the point where marginal revenue equals marginal cost."*
+
+- |ε(g)| > 1 → (↓Price(g) → ↑Revenue(g))
+- |ε(g)| < 1 → (↓Price(g) → ↓Revenue(g))
+- MaxProfit(f) ↔ Produce(f, q*) where MR(q*) = MC(q*)
+
+**6. Competitive advantage**
+
+*"A firm sustains competitive advantage only if its source of advantage is valuable, rare, difficult to imitate, and supported by the organization. Advantage that is easily copied is temporary."*
+
+- ∀f,a (Sustained(a,f) ↔ Valuable(a) ∧ Rare(a) ∧ Inimitable(a) ∧ OrgSupported(a,f))
+- ∀a (Imitable(a) → Temporary(a))
+
+**7. Liquidity and working capital**
+
+*"A firm is liquid when its current assets cover its current liabilities. A current ratio below one signals risk of default on short-term obligations. Prudent managers monitor the ratio each reporting period."*
+
+- Liquid(f) ↔ CurrentAssets(f) ≥ CurrentLiabilities(f)
+- CurrentRatio(f) = CurrentAssets(f) / CurrentLiabilities(f) < 1 → ↑DefaultRisk(f, ShortTerm)
+- ∀m,t (Manager(m,f) ∧ ReportingPeriod(t) → O(Monitor(m, CurrentRatio(f), t)))
+
+**8. Principal–agent problem**
+
+*"Where owners delegate decisions to managers whose interests differ from their own, and where owners cannot fully observe managerial effort, agency costs arise. Incentive contracts and monitoring reduce, but never eliminate, these costs."*
+
+- Delegates(s,m) ∧ Interests(s) ≠ Interests(m) ∧ ¬Observable(Effort(m)) → ∃c AgencyCost(c)
+- Incentives(s,m) ∨ Monitoring(s,m) → ↓AgencyCost
+- ∀s,m ¬(AgencyCost = 0) *(residual loss persists)*
+
+**9. Market segmentation**
+
+*"A segment is worth targeting if it is measurable, substantial, accessible, and responds differently from other segments to the firm's marketing mix. A firm should not pursue segments that fail the substantiality test."*
+
+- Targetable(z) ↔ Measurable(z) ∧ Substantial(z) ∧ Accessible(z) ∧ DistinctResponse(z)
+- ¬Substantial(z) → F(Pursue(f,z))
+
+**10. Risk and return**
+
+*"Investors demand higher expected returns for bearing greater systematic risk. Diversification removes unsystematic risk but cannot remove market-wide risk. A rational investor therefore holds a diversified portfolio."*
+
+- ∀i,j (β(i) > β(j) → E[R(i)] > E[R(j)])
+- ↑Diversification(p) → ↓UnsystematicRisk(p) ∧ SystematicRisk(p) = const
+- Rational(s) → O(Hold(s, DiversifiedPortfolio))
+
+**11. Span of control and delegation**
+
+*"A manager may delegate authority but never ultimate responsibility. Authority delegated must match the responsibility assigned, and each employee should report to exactly one supervisor."*
+
+- ∀m,e,d (Delegate(m,e,d) → P(Authority(e,d)) ∧ Responsible(m,d))
+- ∀e,d (Assigned(e,d) → Authority(e,d) ≥ Responsibility(e,d))
+- ∀e (Employee(e) → ∃!m Reports(e,m))
+
+---
+
+**Caveats:** Formulas such as NPV and break-even are written in ordinary mathematical notation inside the logic, and predicates like "prudent," "substantial," and "good faith" are left as primitives. The "unless" structures in the fiduciary excerpt are simplified to conditional prohibitions. I can write more excerpts in a particular area such as accounting, marketing, or corporate law, or move these into temporal logic for the time-dependent rules.
